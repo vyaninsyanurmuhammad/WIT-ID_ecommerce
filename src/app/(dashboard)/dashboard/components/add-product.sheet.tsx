@@ -171,6 +171,14 @@ const AddProductSheet = ({
     },
   });
 
+  const handleSaveClick = async () => {
+    const isValid = await form.trigger();
+
+    if (isValid) {
+      setIsConfirmOpen(true);
+    }
+  };
+
   const onSubmit = (values: yup.InferType<typeof FormSchema>) => {
     if (mode === "ADD") {
       addProductMutation.mutate(values);
@@ -404,23 +412,22 @@ const AddProductSheet = ({
               )}
             />
             <div className="flex justify-end">
-              <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    type="button"
-                    disabled={
-                      addProductMutation.isPending ||
-                      updateProductMutation.isPending
-                    }
-                  >
-                    Save changes{" "}
-                    {(addProductMutation.isPending ||
-                      updateProductMutation.isPending) && (
-                      <Loader2 className="h-4 w-5 animate-spin" />
-                    )}
-                  </Button>
-                </DialogTrigger>
+              <Button
+                type="button"
+                disabled={
+                  addProductMutation.isPending ||
+                  updateProductMutation.isPending
+                }
+                onClick={handleSaveClick}
+              >
+                Save changes{" "}
+                {(addProductMutation.isPending ||
+                  updateProductMutation.isPending) && (
+                  <Loader2 className="h-4 w-5 animate-spin" />
+                )}
+              </Button>
 
+              <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Konfirmasi Aksi</DialogTitle>
