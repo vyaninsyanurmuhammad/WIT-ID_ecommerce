@@ -44,6 +44,15 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { parseImages } from "@/lib/parse";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 type AddProductSheetProps = {
   isSheetOpen: boolean;
@@ -60,10 +69,10 @@ const AddProductSheet = ({
 }: AddProductSheetProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [images, setImages] = useState<string[]>([]);
+  const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
   const { data, error, isLoading } = useQuery<Category[]>({
-    queryKey: ["categorys"],
+    queryKey: ["categories"],
     queryFn: fetchCategorys,
   });
 
@@ -87,7 +96,6 @@ const AddProductSheet = ({
       });
 
       form.reset();
-      setImages([]);
       setIsSheetOpen(false);
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
@@ -111,7 +119,6 @@ const AddProductSheet = ({
       });
 
       form.reset();
-      setImages([]);
       setIsSheetOpen(false);
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
@@ -184,8 +191,6 @@ const AddProductSheet = ({
         stock: productData.stock,
         images: imagesParse,
       });
-
-      setImages(imagesParse);
     }
   }, [mode, productData, form]);
 
@@ -361,7 +366,8 @@ const AddProductSheet = ({
                   <div className="col-span-3 flex w-full flex-col items-start gap-2">
                     <UploadImageDialog
                       onChange={(image) => {
-                        setImages((prev) => [image.location, ...prev]);
+                        const updatedImages = [image.location, ...field.value]; // Tambahkan gambar baru ke array field.value
+                        field.onChange(updatedImages); // Gunakan field.onChange untuk memperbarui form secara langsung
                       }}
                       disabled={
                         addProductMutation.isPending ||
@@ -369,16 +375,17 @@ const AddProductSheet = ({
                       }
                     />
                     <div className="flex w-full flex-col gap-4 rounded-lg border border-input p-3">
-                      {images.length ? (
-                        images.map((image, index) => (
+                      {field.value.length ? (
+                        field.value.map((image, index) => (
                           <UploadedImageCard
                             key={index}
                             image={image}
                             index={index}
                             onDeleteClick={() => {
-                              setImages((prev) =>
-                                prev.filter((data) => data !== image),
-                              );
+                              const updatedImages = field.value.filter(
+                                (data) => data !== image,
+                              ); // Hapus gambar yang dipilih
+                              field.onChange(updatedImages); // Gunakan field.onChange untuk memperbarui form secara langsung
                             }}
                           />
                         ))
@@ -397,19 +404,48 @@ const AddProductSheet = ({
               )}
             />
             <div className="flex justify-end">
-              <Button
-                type="submit"
-                disabled={
-                  addProductMutation.isPending ||
-                  updateProductMutation.isPending
-                }
-              >
-                Save changes{" "}
-                {(addProductMutation.isPending ||
-                  updateProductMutation.isPending) && (
-                  <Loader2 className="h-4 w-5 animate-spin" />
-                )}
-              </Button>
+              <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    type="button"
+                    disabled={
+                      addProductMutation.isPending ||
+                      updateProductMutation.isPending
+                    }
+                  >
+                    Save changes{" "}
+                    {(addProductMutation.isPending ||
+                      updateProductMutation.isPending) && (
+                      <Loader2 className="h-4 w-5 animate-spin" />
+                    )}
+                  </Button>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Konfirmasi Aksi</DialogTitle>
+                    <DialogDescription>
+                      Apakah Anda yakin ingin menyimpan perubahan ini?
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsConfirmOpen(false)}
+                    >
+                      Batal
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setIsConfirmOpen(false);
+                        form.handleSubmit(onSubmit)();
+                      }}
+                    >
+                      Lanjutkan
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </form>
         </Form>
