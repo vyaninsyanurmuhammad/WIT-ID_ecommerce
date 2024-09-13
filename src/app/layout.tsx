@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import QueryProvider from "@/components/query-provider";
+import { Toaster } from "@/components/ui/toaster";
+import ReduxProvider from "@/redux/provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,14 +44,19 @@ export default function RootLayout({
         )}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <ReduxProvider>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
+        </ReduxProvider>
+        <Toaster />
       </body>
     </html>
   );
