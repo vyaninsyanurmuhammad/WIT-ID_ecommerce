@@ -1,17 +1,19 @@
 "use client";
 
 import Navbar from "@/components/navbar";
-import React from "react";
+import React, { useEffect } from "react";
 import { DataTable } from "./components/data-table";
 import { columns, Product } from "./components/columns";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/query/product.query";
 
 const Dashboard = () => {
-  const { data, error, isLoading } = useQuery<Product[]>({
+  const { data, error, isFetching, isLoading } = useQuery<Product[]>({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
+
+  useEffect;
 
   return (
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
@@ -30,7 +32,7 @@ const Dashboard = () => {
                 })
               : []
           }
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           error={error}
         />
       </div>

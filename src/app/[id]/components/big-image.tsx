@@ -12,13 +12,14 @@ const BigImage = ({ image }: { image: string }) => {
   };
 
   return (
-    <div className="flex aspect-square h-[384px] w-full max-w-sm overflow-hidden rounded-xl bg-lime-400">
+    <div className="flex relative lg:aspect-square h-[384px] w-full max-w-sm overflow-hidden rounded-xl bg-lime-400">
       {loading && <Skeleton className="aspect-square h-full w-full" />}
       {hasError ? (
         <FallbackImage className="text-center" />
       ) : (
         <img
           src={image}
+          className="relative object-cover"
           onLoad={() => setLoading(false)}
           onError={handleError}
           alt={`big-image-product`}

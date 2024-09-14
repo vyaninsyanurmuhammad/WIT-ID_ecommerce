@@ -76,3 +76,16 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    @apply appearance-none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    @apply appearance-none;
+    -moz-appearance: textfield;
+  }
+}

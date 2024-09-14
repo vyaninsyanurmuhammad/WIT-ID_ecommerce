@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import dashboardReducer from "./features/dashboard/dashboard.slice";
+import cartReducer from "./features/dashboard/cart.slice";
 
 export const store = configureStore({
-  reducer: { dashboardReducer },
+  reducer: { cartReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

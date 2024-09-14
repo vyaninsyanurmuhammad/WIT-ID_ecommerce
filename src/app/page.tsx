@@ -98,8 +98,8 @@ export default function Home() {
   return (
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
-      <div className="container mx-auto flex flex-col gap-20">
-        <div className="flex justify-between gap-40 pt-40">
+      <div className="container mx-auto flex flex-col gap-20 px-5 xl:px-0">
+        <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-40 pt-40">
           <h1 className="w-full max-w-[860px] font-rubik text-5xl font-normal text-zinc-800 dark:text-white">
             Enter the digital bazaar, where every click leads to excitement
           </h1>
@@ -110,7 +110,7 @@ export default function Home() {
           </p>
         </div>
         <main className="flex h-fit flex-col gap-6">
-          <div className="flex w-full justify-between">
+          <div className="flex w-full justify-between gap-4">
             <Input
               placeholder="Cari Nama Produk..."
               value={filterTitle}
@@ -204,7 +204,7 @@ export default function Home() {
               </SheetContent>
             </Sheet>
           </div>
-          <div className="grid h-fit grid-cols-4 grid-rows-2 gap-x-4 gap-y-8">
+          <div className="grid h-fit grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 xl:grid-cols-4 ">
             {isLoading || isFetching ? (
               Array.from({ length: 8 }).map((_, index) => (
                 <LandingSkeletonCard key={index} />

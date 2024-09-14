@@ -12,8 +12,12 @@ import { parseImages } from "@/lib/parse";
 import LittleImage from "./components/little-image";
 import BigImage from "./components/big-image";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDispatch } from "react-redux";
+import { addProduct } from "@/redux/features/dashboard/cart.slice";
 
 const Detail = ({ params }: { params: { id: string } }) => {
+  const dispatch = useDispatch();
+
   const [productData, setProductData] = useState<Product | undefined | null>();
   const [focusImage, setFocusImage] = useState<number>(0);
 
@@ -23,6 +27,12 @@ const Detail = ({ params }: { params: { id: string } }) => {
     queryKey: ["publicProduct", id],
     queryFn: () => fetchProductById(id),
   });
+
+  const handleAddCart = () => {
+    if (productData) {
+      dispatch(addProduct(productData));
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -36,12 +46,12 @@ const Detail = ({ params }: { params: { id: string } }) => {
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
 
-      <div className="container mx-auto flex flex-col gap-20 px-10">
+      <div className="container mx-auto flex flex-col gap-20 px-5 xl:px-0">
         <main className="flex h-fit flex-col gap-6">
           {isFetching || isLoading ? (
-            <div className="mt-40 flex flex-row gap-20">
-              <div className="flex w-fit flex-col gap-6">
-                <Skeleton className="flex aspect-square h-[384px] w-full max-w-sm rounded-xl" />
+            <div className="mb-10 mt-40 flex flex-col gap-10 lg:flex-row lg:gap-20">
+              <div className="flex flex-col gap-6 sm:w-fit">
+                <Skeleton className="flex h-[384px] w-full max-w-sm rounded-xl lg:aspect-square" />
                 <div className="flex w-full max-w-sm flex-row gap-5 overflow-x-auto">
                   {Array.from({ length: 4 }).map((_, index) => (
                     <Skeleton
@@ -80,8 +90,8 @@ const Detail = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           ) : productData ? (
-            <div className="mt-40 flex flex-row gap-20">
-              <div className="flex w-fit flex-col gap-6">
+            <div className="mb-10 mt-40 flex flex-col gap-10 lg:flex-row lg:gap-20">
+              <div className="flex flex-col gap-6 sm:w-fit">
                 <BigImage image={productData.images[focusImage]} />
                 <div className="flex w-full max-w-sm flex-row gap-5 overflow-x-auto">
                   {productData.images.map((image, index) => (
@@ -118,7 +128,10 @@ const Detail = ({ params }: { params: { id: string } }) => {
                     </p>
                   </div>
 
-                  <Button className="flex h-fit w-full max-w-lg items-center gap-2 py-2 font-rubik text-lg font-medium">
+                  <Button
+                    className="flex h-fit w-full max-w-lg items-center gap-2 py-2 font-rubik text-lg font-medium"
+                    onClick={handleAddCart}
+                  >
                     <ShoppingCart className="h-5 w-5" /> Add to Cart
                   </Button>
                 </div>
