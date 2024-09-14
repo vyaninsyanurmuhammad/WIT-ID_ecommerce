@@ -71,12 +71,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-end justify-between py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter Nama Produk..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm dark:border-white/50"
+          className="max-w-sm font-rubik dark:border-white/50"
         />
         <Button className="font-rubik" onClick={() => handleIsSheetOpen(true)}>
           Add Product

@@ -52,7 +52,7 @@ const Actions = ({ product }: { product: Product }) => {
   const handleIsDialogOpen = (open: boolean) => setIsDialogOpen(open);
 
   return (
-    <>
+    <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -87,7 +87,7 @@ const Actions = ({ product }: { product: Product }) => {
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={handleIsDialogOpen}
       />
-    </>
+    </div>
   );
 };
 

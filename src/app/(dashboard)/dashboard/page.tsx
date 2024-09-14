@@ -1,12 +1,11 @@
 "use client";
 
 import Navbar from "@/components/navbar";
-import React, { useEffect } from "react";
+import React from "react";
 import { DataTable } from "./components/data-table";
 import { columns, Product } from "./components/columns";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/query/product.query";
-import AddProductSheet from "./components/add-product.sheet";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useQuery<Product[]>({
@@ -16,9 +15,9 @@ const Dashboard = () => {
 
   return (
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
-      <Navbar />
+      <Navbar className="px-5 xl:px-0" />
 
-      <div className="container mx-auto pt-40">
+      <div className="container mx-auto px-5 pt-40 xl:px-0">
         <DataTable
           columns={columns}
           data={

@@ -1,5 +1,38 @@
 import { axiosAPI } from "@/lib/axios";
 
+export const fetchPublicProducts = async ({
+  offset = 0,
+  limit = 8,
+  filterTitle = "",
+  mode,
+}: {
+  offset: number;
+  limit: number;
+  filterTitle: string;
+  mode?: string | null;
+}) => {
+  let price: string = "";
+
+  if (mode) {
+    if (mode === "0") {
+      price = `&price=100`;
+    } else if (mode === "1") {
+      price = `&price_min=100&price_max=1000`;
+    }
+  }
+
+  const res = await axiosAPI.get(
+    `/api/v1/products?offset=${offset}&limit=${limit}&title=${encodeURIComponent(
+      filterTitle,
+    )}${price}`,
+  );
+
+  if (res.status !== 200) {
+    throw new Error("Network response was not ok");
+  }
+  return res.data;
+};
+
 export const fetchProducts = async () => {
   const res = await axiosAPI.get("/api/v1/products");
   if (res.status !== 200) {

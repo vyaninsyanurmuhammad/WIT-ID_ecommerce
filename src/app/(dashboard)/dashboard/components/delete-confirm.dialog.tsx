@@ -11,6 +11,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { deleteProduct } from "@/query/product.query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 interface DeleteConfirmDialogProps {
@@ -29,11 +30,11 @@ const DeleteConfirmDialog = ({
 
   const mutation = useMutation({
     mutationFn: deleteProduct,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         variant: "default",
-        title: "Product deleted successfully!",
-        description: `${productId} successfully deleted`,
+        title: "Produk berhasil dihapus!",
+        description: `Produk dengan ID ${productId} telah berhasil dihapus`,
       });
 
       setIsDialogOpen(false);
@@ -51,21 +52,33 @@ const DeleteConfirmDialog = ({
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent aria-label="delete">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Apakah Anda yakin?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. Are you sure you want to permanently
-            delete this file from our servers?
+            Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin
+            menghapus file ini secara permanen dari server kami?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="grid grid-cols-1 grid-rows-2 gap-y-2">
-          <DialogClose asChild>
-            <Button type="button" variant={"ghost"} className="!ml-0">
-              Cancel
-            </Button>
-            <Button type="button" onClick={onDelete}>
-              Confirm
+          <DialogClose asChild disabled={mutation.isPending}>
+            <Button
+              disabled={mutation.isPending}
+              type="button"
+              variant={"ghost"}
+              className="!ml-0"
+            >
+              Batal
             </Button>
           </DialogClose>
+
+          <Button
+            type="button"
+            onClick={onDelete}
+            disabled={mutation.isPending}
+            className="!ml-0"
+          >
+            Konfirmasi{" "}
+            {mutation.isPending && <Loader2 className="h-4 w-5 animate-spin" />}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
