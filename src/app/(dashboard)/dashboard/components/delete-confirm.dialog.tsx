@@ -33,12 +33,13 @@ const DeleteConfirmDialog = ({
       toast({
         variant: "default",
         title: "Product deleted successfully!",
-        description: `Response data: ${data.id}`,
+        description: `${productId} successfully deleted`,
       });
 
       setIsDialogOpen(false);
-
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
 
@@ -57,12 +58,12 @@ const DeleteConfirmDialog = ({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="grid grid-cols-1 grid-rows-2 gap-y-2">
-          <Button type="button" onClick={onDelete}>
-            Confirm
-          </Button>
           <DialogClose asChild>
             <Button type="button" variant={"ghost"} className="!ml-0">
               Cancel
+            </Button>
+            <Button type="button" onClick={onDelete}>
+              Confirm
             </Button>
           </DialogClose>
         </DialogFooter>

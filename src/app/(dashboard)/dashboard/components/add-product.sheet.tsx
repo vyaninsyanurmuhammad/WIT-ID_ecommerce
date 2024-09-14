@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import NormalButton from "@/components/normal.button";
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetFooter,
 } from "@/components/ui/sheet";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Category } from "./columns";
@@ -46,7 +42,6 @@ import { Loader2 } from "lucide-react";
 import { parseImages } from "@/lib/parse";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -97,14 +92,16 @@ const AddProductSheet = ({
 
       form.reset();
       setIsSheetOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (error: any) => {
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: "Error adding product",
         description:
-          error?.message || "An error occurred while adding the product.",
+          error.message || "An error occurred while adding the product.",
       });
     },
   });
@@ -120,14 +117,16 @@ const AddProductSheet = ({
 
       form.reset();
       setIsSheetOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (error: any) => {
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: "Error updating product",
         description:
-          error?.message || "An error occurred while updating the product.",
+          error.message || "An error occurred while updating the product.",
       });
     },
   });
@@ -199,8 +198,18 @@ const AddProductSheet = ({
         stock: productData.stock,
         images: imagesParse,
       });
+
+      if (errorProduct) {
+        toast({
+          variant: "destructive",
+          title: "Error adding product",
+          description:
+            errorProduct.message ||
+            "An error occurred while fetching the product.",
+        });
+      }
     }
-  }, [mode, productData, form]);
+  }, [mode, productData, errorProduct, form]);
 
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -237,6 +246,7 @@ const AddProductSheet = ({
                   <Input
                     className="col-span-3"
                     disabled={
+                      isFetchingProduct ||
                       addProductMutation.isPending ||
                       updateProductMutation.isPending
                     }
@@ -261,6 +271,7 @@ const AddProductSheet = ({
                   <Textarea
                     className="col-span-3"
                     disabled={
+                      isFetchingProduct ||
                       addProductMutation.isPending ||
                       updateProductMutation.isPending
                     }
@@ -284,6 +295,7 @@ const AddProductSheet = ({
                     className="col-span-3"
                     type="number"
                     disabled={
+                      isFetchingProduct ||
                       addProductMutation.isPending ||
                       updateProductMutation.isPending
                     }
@@ -307,6 +319,7 @@ const AddProductSheet = ({
                     onValueChange={field.onChange}
                     defaultValue={field.value?.toString()}
                     disabled={
+                      isFetchingProduct ||
                       addProductMutation.isPending ||
                       updateProductMutation.isPending
                     }
@@ -349,6 +362,7 @@ const AddProductSheet = ({
                     className="col-span-3"
                     type="number"
                     disabled={
+                      isFetchingProduct ||
                       addProductMutation.isPending ||
                       updateProductMutation.isPending
                     }
@@ -378,6 +392,7 @@ const AddProductSheet = ({
                         field.onChange(updatedImages); // Gunakan field.onChange untuk memperbarui form secara langsung
                       }}
                       disabled={
+                        isFetchingProduct ||
                         addProductMutation.isPending ||
                         updateProductMutation.isPending
                       }
@@ -415,27 +430,29 @@ const AddProductSheet = ({
               <Button
                 type="button"
                 disabled={
+                  isFetchingProduct ||
                   addProductMutation.isPending ||
                   updateProductMutation.isPending
                 }
                 onClick={handleSaveClick}
               >
                 Save changes{" "}
-                {(addProductMutation.isPending ||
+                {(isFetchingProduct ||
+                  addProductMutation.isPending ||
                   updateProductMutation.isPending) && (
                   <Loader2 className="h-4 w-5 animate-spin" />
                 )}
               </Button>
 
               <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-                <DialogContent>
+                <DialogContent className="font-rubik">
                   <DialogHeader>
                     <DialogTitle>Konfirmasi Aksi</DialogTitle>
                     <DialogDescription>
                       Apakah Anda yakin ingin menyimpan perubahan ini?
                     </DialogDescription>
                   </DialogHeader>
-                  <DialogFooter>
+                  <DialogFooter className="grid grid-cols-1 grid-rows-2 gap-y-2">
                     <Button
                       variant="outline"
                       onClick={() => setIsConfirmOpen(false)}
