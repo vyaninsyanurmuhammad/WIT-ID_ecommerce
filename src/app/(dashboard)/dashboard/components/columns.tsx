@@ -5,7 +5,6 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpDown,
-  GalleryHorizontal,
   MoreHorizontal,
 } from "lucide-react";
 import {
@@ -130,7 +129,7 @@ const ImagesDialogView = ({
   title: string;
   images: string[];
 }) => {
-  const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   const handlePrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -183,7 +182,6 @@ const ImagesDialogView = ({
                     dynamicBullets: true,
                   }}
                   onSlideChange={() => {}}
-                  onSwiper={(swiper) => {}}
                 >
                   {images.map((data, index) => (
                     <SwiperSlide key={index} className="!w-full">
@@ -298,7 +296,7 @@ export const columns: ColumnDef<Product>[] = [
 
       return product.category.name;
     },
-    sortingFn: (rowA, rowB, columnId) => {
+    sortingFn: (rowA, rowB) => {
       // Mengakses nama kategori dari data baris
       const nameA = rowA.original.category.name.toLowerCase();
       const nameB = rowB.original.category.name.toLowerCase();

@@ -24,7 +24,10 @@ const rubik = localFont({
   weight: "300 400 500 600 700 800 900",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "WIT ecommerce",
   description:
     "Temukan koleksi produk berkualitas tinggi di WIT ecommerce. Dari pakaian trendi hingga elektronik mutakhir, kami menawarkan berbagai pilihan yang memenuhi kebutuhan Anda. Nikmati penawaran terbaik dan pengalaman belanja yang menyenangkan dengan layanan pelanggan yang ramah dan pengiriman cepat. Jelajahi WIT ecommerce hari ini dan temukan produk yang tepat untuk Anda!",

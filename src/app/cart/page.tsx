@@ -2,12 +2,8 @@
 
 import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useAppSelector } from "@/redux/hook";
-import { Minus, Plus, Trash } from "lucide-react";
 import React from "react";
-import LittleImage from "../[id]/components/little-image";
 import CartCard from "./components/cart.card";
 import { useToast } from "@/hooks/use-toast";
 

@@ -4,7 +4,6 @@ import React, { DetailedHTMLProps } from "react";
 import { CircleUser, LayoutGrid, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { ModeToggle } from "@/components/mode-toggle";
-import NormalButton from "./normal.button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/redux/hook";

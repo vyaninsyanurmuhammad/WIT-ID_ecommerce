@@ -7,14 +7,14 @@ export const createImage = (url: string) =>
     image.src = url
   })
 
-export function getRadianAngle(degreeValue: any) {
+export function getRadianAngle(degreeValue: number) {
   return (degreeValue * Math.PI) / 180
 }
 
 /**
  * Returns the new bounding area of a rotated rectangle.
  */
-export function rotateSize(width: number, height: number, rotation: any) {
+export function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = getRadianAngle(rotation)
 
   return {

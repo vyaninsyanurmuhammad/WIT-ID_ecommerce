@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
-
-import { Skeleton } from "@/components/ui/skeleton";
-
 import { Minus, Plus, Trash } from "lucide-react";
 import LittleImage from "@/app/[id]/components/little-image";
 import { useDispatch } from "react-redux";
