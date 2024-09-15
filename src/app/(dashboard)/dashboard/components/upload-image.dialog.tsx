@@ -176,7 +176,7 @@ const UploadImageDialog = ({  onChange, disabled }: UploadImageDialog) => {
       </DialogTrigger>
       <DialogContent
         key={"images"}
-        className="font-rubik"
+        className="font-rubik dark:bg-zinc-900"
         aria-hidden="false"
         aria-label="images"
       >

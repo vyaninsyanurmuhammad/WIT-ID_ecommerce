@@ -2,7 +2,7 @@ import FallbackImage from "@/components/fallback-image";
 import { Skeleton } from "@/components/ui/skeleton";
 import React, { useState } from "react";
 
-const BigImage = ({ image }: { image: string }) => {
+const PreviewImage = ({ image, index }: { image: string; index: number }) => {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -12,21 +12,21 @@ const BigImage = ({ image }: { image: string }) => {
   };
 
   return (
-    <div className="relative flex h-auto w-full overflow-hidden rounded-xl lg:aspect-square lg:h-[384px] lg:max-w-sm">
-      {loading && <Skeleton className="aspect-square h-full w-full" />}
+    <div className="relative flex h-[384px] w-full overflow-hidden rounded-xl">
+      {loading && <Skeleton className="absolute h-full w-full" />}
       {hasError ? (
         <FallbackImage className="text-center" />
       ) : (
         <img
           src={image}
-          className="relative w-full object-cover"
+          className="relative h-full w-full object-cover"
           onLoad={() => setLoading(false)}
           onError={handleError}
-          alt={`big-image-product`}
+          alt={`preview-${index}`}
         />
       )}
     </div>
   );
 };
 
-export default BigImage;
+export default PreviewImage;

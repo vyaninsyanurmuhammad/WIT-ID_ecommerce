@@ -3,28 +3,39 @@ import { axiosAPI } from "@/lib/axios";
 export const fetchPublicProducts = async ({
   offset = 0,
   limit = 8,
-  filterTitle = "",
-  mode,
+  title = "",
+  minPrice,
+  maxPrice,
+  category,
 }: {
   offset: number;
   limit: number;
-  filterTitle: string;
-  mode?: string | null;
+  title: string;
+  minPrice?: string | "";
+  maxPrice?: string | "";
+  category?: string;
 }) => {
-  let price: string = "";
+  const priceParams: string[] = [];
 
-  if (mode) {
-    if (mode === "0") {
-      price = `&price=100`;
-    } else if (mode === "1") {
-      price = `&price_min=100&price_max=1000`;
-    }
+  if (minPrice !== undefined && minPrice !== "") {
+    priceParams.push(`price_min=${minPrice}`);
   }
+
+  if (maxPrice !== undefined && maxPrice !== "") {
+    priceParams.push(`price_max=${maxPrice}`);
+  }
+
+  console.log(
+    "URL :",
+    `/api/v1/products?offset=${offset}&limit=${limit}&title=${encodeURIComponent(
+      title,
+    )}${priceParams.length ? `&${priceParams.join("&")}` : ""}${category ? `&categoryId=${encodeURIComponent(category)}` : ""}`,
+  );
 
   const res = await axiosAPI.get(
     `/api/v1/products?offset=${offset}&limit=${limit}&title=${encodeURIComponent(
-      filterTitle,
-    )}${price}`,
+      title,
+    )}${priceParams.length ? `&${priceParams.join("&")}` : ""}${category ? `&categoryId=${encodeURIComponent(category)}` : ""}`,
   );
 
   if (res.status !== 200) {

@@ -32,6 +32,7 @@ import {
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import AddProductSheet from "./add-product.sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -109,14 +110,15 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
+              Array.from({ length: 10 }).map((_, index) => (
+                <TableRow key={index}>
+                  {columns.map((data, indexC) => (
+                    <TableCell key={indexC} className="h-12 text-center">
+                      <Skeleton className="h-5 w-full min-w-5" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             ) : error ? (
               <TableRow>
                 <TableCell

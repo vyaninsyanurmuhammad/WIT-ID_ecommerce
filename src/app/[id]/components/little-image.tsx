@@ -12,8 +12,8 @@ const LittleImage = ({ image, index }: { image: string; index: number }) => {
   };
 
   return (
-    <div className="h-20 w-20 shrink-0 rounded-lg overflow-hidden">
-      {loading && <Skeleton className="aspect-square h-full w-full" />}
+    <div className="relative h-20 w-20 shrink-0 rounded-lg overflow-hidden">
+      {loading && <Skeleton className="absolute aspect-square h-full w-full" />}
       {hasError ? (
         <FallbackImage className="text-xs text-center" />
       ) : (

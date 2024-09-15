@@ -38,7 +38,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
     if (data) {
       const imagesParse = parseImages(data.images);
 
-      setProductData({ images: imagesParse, ...data });
+      setProductData({ ...data, images: imagesParse });
     }
   }, [data]);
 
@@ -46,12 +46,12 @@ const Detail = ({ params }: { params: { id: string } }) => {
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
 
-      <div className="container mx-auto flex flex-col gap-20 px-5 xl:px-0">
+      <div className="container mx-auto flex flex-col gap-20 px-5 pb-20 xl:px-0">
         <main className="flex h-fit flex-col gap-6">
           {isFetching || isLoading ? (
             <div className="mb-10 mt-40 flex flex-col gap-10 lg:flex-row lg:gap-20">
-              <div className="flex flex-col gap-6 sm:w-fit">
-                <Skeleton className="flex h-[384px] w-full max-w-sm rounded-xl lg:aspect-square" />
+              <div className="flex w-full flex-col gap-6 lg:w-fit">
+                <Skeleton className="flex h-auto w-full rounded-xl aspect-square lg:aspect-auto lg:h-[384px] lg:max-w-sm" />
                 <div className="flex w-full max-w-sm flex-row gap-5 overflow-x-auto">
                   {Array.from({ length: 4 }).map((_, index) => (
                     <Skeleton
@@ -63,8 +63,8 @@ const Detail = ({ params }: { params: { id: string } }) => {
               </div>
               <div className="flex h-auto w-full flex-col gap-10">
                 <div className="flex h-full w-full flex-col justify-between gap-4">
-                  <div className="flex flex-col gap-4">
-                    <Skeleton className="flex h-8 w-full max-w-96 rounded-xl" />
+                  <div className="flex w-full flex-col gap-4">
+                    <Skeleton className="flex h-9 w-full max-w-96 rounded-xl" />
 
                     <div className="flex flex-row gap-3">
                       <Skeleton className="flex h-8 w-full max-w-24 rounded-xl" />
@@ -72,7 +72,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
                       <Skeleton className="flex h-8 w-full max-w-24 rounded-xl" />
                     </div>
 
-                    <Skeleton className="flex h-8 w-full max-w-16 rounded-xl" />
+                    <Skeleton className="flex h-10 w-full max-w-16 rounded-xl" />
 
                     <Separator
                       orientation="horizontal"
@@ -91,7 +91,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
             </div>
           ) : productData ? (
             <div className="mb-10 mt-40 flex flex-col gap-10 lg:flex-row lg:gap-20">
-              <div className="flex flex-col gap-6 sm:w-fit">
+              <div className="flex w-full flex-col gap-6 lg:w-fit">
                 <BigImage image={productData.images[focusImage]} />
                 <div className="flex w-full max-w-sm flex-row gap-5 overflow-x-auto">
                   {productData.images.map((image, index) => (
@@ -101,9 +101,9 @@ const Detail = ({ params }: { params: { id: string } }) => {
                   ))}
                 </div>
               </div>
-              <div className="flex h-auto flex-col gap-10">
+              <div className="flex h-auto w-full flex-col gap-10">
                 <div className="flex h-full flex-col justify-between gap-4">
-                  <div className="flex flex-col gap-4">
+                  <div className="flex w-full flex-col gap-4">
                     <h1 className="w-full font-geist-sans text-3xl font-bold text-zinc-800 dark:text-white">
                       {productData.title}
                     </h1>
@@ -121,7 +121,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
                     </h2>
                     <Separator
                       orientation="horizontal"
-                      className="dark:bg-white"
+                      className="w-full dark:bg-white"
                     />
                     <p className="w-full font-rubik text-base/5 text-zinc-800/70 dark:text-white/70">
                       {productData.description}

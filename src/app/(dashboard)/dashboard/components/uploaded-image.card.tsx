@@ -26,9 +26,10 @@ const UploadedImageCard = ({
   return (
     <div className="flex w-full justify-between gap-3" key={index}>
       <div className="relative aspect-square h-auto max-h-96 w-full overflow-hidden rounded-xl">
-        {loading ? (
-          <Skeleton className="aspect-square h-96 w-full rounded-xl" />
-        ) : hasError ? (
+        {loading && (
+          <Skeleton className="absolute aspect-square h-96 w-full rounded-xl" />
+        )}
+        {hasError ? (
           <FallbackImage />
         ) : (
           <img

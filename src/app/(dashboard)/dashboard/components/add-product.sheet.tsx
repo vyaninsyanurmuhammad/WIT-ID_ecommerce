@@ -143,7 +143,7 @@ const AddProductSheet = ({
     price: yup
       .number()
       .typeError("Harga harus berupa angka.")
-      .min(0, "Harga harus lebih besar dari atau sama dengan 0.")
+      .min(1, "Harga harus lebih besar dari atau sama dengan 1.")
       .required("Harga wajib diisi."),
     categoryId: yup.number().required("Kategori wajib diisi."),
     stock: yup
@@ -182,6 +182,7 @@ const AddProductSheet = ({
     if (mode === "ADD") {
       addProductMutation.mutate(values);
     } else if (mode === "UPDATE") {
+      console.log({ id: productId!, ...values });
       updateProductMutation.mutate({ id: productId!, ...values });
     }
   };
@@ -215,7 +216,7 @@ const AddProductSheet = ({
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetContent
         key={"product"}
-        className="w-full overflow-y-auto font-rubik md:min-w-[768px]"
+        className="w-full overflow-y-auto font-rubik md:min-w-[768px] dark:bg-zinc-900"
         aria-hidden="false"
         aria-label="product"
       >
@@ -321,7 +322,8 @@ const AddProductSheet = ({
                     disabled={
                       isFetchingProduct ||
                       addProductMutation.isPending ||
-                      updateProductMutation.isPending
+                      updateProductMutation.isPending ||
+                      mode === "UPDATE"
                     }
                   >
                     <SelectTrigger className="col-span-3 w-full">
@@ -460,6 +462,7 @@ const AddProductSheet = ({
                       Batal
                     </Button>
                     <Button
+                      className="!ml-0"
                       onClick={() => {
                         setIsConfirmOpen(false);
                         form.handleSubmit(onSubmit)();
