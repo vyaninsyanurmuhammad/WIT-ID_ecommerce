@@ -16,10 +16,13 @@ const Navbar = ({ className, ...props }: NavbarProps) => {
 
   return (
     <nav
-      className={cn("fixed left-0 top-0 z-50 w-full px-5 xl:px-0", className)}
+      className={cn(
+        "fixed left-0 top-0 z-50 w-full px-5 backdrop-blur-xl sm:backdrop-blur-none xl:px-0",
+        className,
+      )}
       {...props}
     >
-      <div className="container mx-auto flex w-full justify-between items-center pt-8">
+      <div className="container mx-auto flex w-full items-center justify-between pb-3 pt-4 sm:pb-2 sm:pt-8">
         <div className="relative h-7">
           <Image
             className="!relative object-contain brightness-0 dark:invert"

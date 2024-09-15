@@ -14,9 +14,11 @@ import BigImage from "./components/big-image";
 import { useDispatch } from "react-redux";
 import { addProduct } from "@/redux/features/dashboard/cart.slice";
 import DetailLoading from "./components/detail.loading";
+import { useRouter } from "next/navigation";
 
 const Detail = ({ params }: { params: { id: string } }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [productData, setProductData] = useState<Product | undefined | null>();
   const [focusImage, setFocusImage] = useState<number>(0);
@@ -31,6 +33,8 @@ const Detail = ({ params }: { params: { id: string } }) => {
   const handleAddCart = () => {
     if (productData) {
       dispatch(addProduct(productData));
+
+      router.push("/cart");
     }
   };
 
