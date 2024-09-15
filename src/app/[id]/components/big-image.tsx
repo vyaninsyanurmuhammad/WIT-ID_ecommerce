@@ -13,7 +13,7 @@ const BigImage = ({ image }: { image: string }) => {
 
   return (
     <div className="relative flex h-auto w-full overflow-hidden rounded-xl lg:aspect-square lg:h-[384px] lg:max-w-sm">
-      {loading && <Skeleton className="aspect-square h-full w-full" />}
+      {loading && <Skeleton className="absolute aspect-square h-full w-full" />}
       {hasError ? (
         <FallbackImage className="text-center" />
       ) : (

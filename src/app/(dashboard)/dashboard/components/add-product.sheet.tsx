@@ -216,7 +216,7 @@ const AddProductSheet = ({
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetContent
         key={"product"}
-        className="w-full overflow-y-auto font-rubik md:min-w-[768px] dark:bg-zinc-900"
+        className="w-full overflow-y-auto font-rubik dark:bg-zinc-900 md:min-w-[768px]"
         aria-hidden="false"
         aria-label="product"
       >
@@ -390,8 +390,8 @@ const AddProductSheet = ({
                   <div className="col-span-3 flex w-full flex-col items-start gap-2">
                     <UploadImageDialog
                       onChange={(image) => {
-                        const updatedImages = [image.location, ...field.value]; // Tambahkan gambar baru ke array field.value
-                        field.onChange(updatedImages); // Gunakan field.onChange untuk memperbarui form secara langsung
+                        const updatedImages = [image.location, ...field.value];
+                        field.onChange(updatedImages);
                       }}
                       disabled={
                         isFetchingProduct ||
@@ -409,8 +409,8 @@ const AddProductSheet = ({
                             onDeleteClick={() => {
                               const updatedImages = field.value.filter(
                                 (data) => data !== image,
-                              ); // Hapus gambar yang dipilih
-                              field.onChange(updatedImages); // Gunakan field.onChange untuk memperbarui form secara langsung
+                              );
+                              field.onChange(updatedImages);
                             }}
                           />
                         ))
@@ -422,7 +422,7 @@ const AddProductSheet = ({
                   <FormDescription className="col-span-3 col-start-2">
                     Unggah gambar produk yang akan ditambahkan. Pilih gambar
                     berkualitas tinggi yang jelas dan mewakili produk dengan
-                    baik. Pastikan ukuran file gambar tidak melebihi 2 MB.
+                    baik. Pastikan ukuran file gambar tidak melebihi 1 MB.
                   </FormDescription>
                   <FormMessage className="col-span-3 col-start-2" />
                 </FormItem>

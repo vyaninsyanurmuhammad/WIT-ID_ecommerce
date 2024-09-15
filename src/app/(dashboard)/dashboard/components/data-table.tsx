@@ -70,15 +70,27 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-end justify-between gap-4 py-4">
-        <Input
-          placeholder="Filter Nama Produk..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm font-rubik dark:border-white/50"
-        />
+      <div className="flex flex-col-reverse items-end justify-between gap-4 py-4 md:flex-row">
+        <div className="flex w-full flex-col items-end gap-4 sm:flex-row">
+          <Input
+            placeholder="Filter Nama Produk..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            className="w-full font-rubik dark:border-white/50 sm:max-w-sm"
+          />
+          <Input
+            placeholder="Filter Kategori Produk..."
+            value={
+              (table.getColumn("category")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn("category")?.setFilterValue(event.target.value)
+            }
+            className="w-full font-rubik dark:border-white/50 sm:max-w-sm"
+          />
+        </div>
         <Button className="font-rubik" onClick={() => handleIsSheetOpen(true)}>
           Add Product
         </Button>
@@ -111,7 +123,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {isLoading ? (
               Array.from({ length: 10 }).map((_, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="dark:border-white/30">
                   {columns.map((data, indexC) => (
                     <TableCell key={indexC} className="h-12 text-center">
                       <Skeleton className="h-5 w-full min-w-5" />
@@ -133,7 +145,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="dark:border-white/50"
+                  className="dark:border-white/30"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

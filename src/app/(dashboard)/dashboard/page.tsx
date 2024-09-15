@@ -22,16 +22,7 @@ const Dashboard = () => {
       <div className="container mx-auto px-5 pt-40 xl:px-0">
         <DataTable
           columns={columns}
-          data={
-            data
-              ? data.sort((a, b) => {
-                  const aDate = new Date(a.updatedAt).getTime();
-                  const bDate = new Date(b.updatedAt).getTime();
-
-                  return bDate - aDate;
-                })
-              : []
-          }
+          data={data || []}
           isLoading={isLoading || isFetching}
           error={error}
         />

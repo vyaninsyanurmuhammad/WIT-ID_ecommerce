@@ -43,6 +43,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import PreviewImage from "./preview-image";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export type Product = {
   id: number;
@@ -65,7 +67,7 @@ export type Category = {
 };
 
 const Actions = ({ product }: { product: Product }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -91,9 +93,11 @@ const Actions = ({ product }: { product: Product }) => {
             Copy product ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => {
-            router.push(`/${product.id}`)
-          }}>
+          <DropdownMenuItem
+            onClick={() => {
+              router.push(`/${product.id}`);
+            }}
+          >
             Detail
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleIsSheetOpen(true)}>
@@ -119,7 +123,13 @@ const Actions = ({ product }: { product: Product }) => {
   );
 };
 
-const ImagesDialogView = ({title,  images }: { title:string; images: string[] }) => {
+const ImagesDialogView = ({
+  title,
+  images,
+}: {
+  title: string;
+  images: string[];
+}) => {
   const swiperRef = useRef<any>(null);
 
   const handlePrev = () => {
@@ -141,14 +151,17 @@ const ImagesDialogView = ({title,  images }: { title:string; images: string[] })
           <Dialog>
             <DialogTrigger asChild>
               <TooltipTrigger asChild>
-                <span className="hover:underline cursor-pointer">Click to See Images</span>
+                <span className="cursor-pointer hover:underline">
+                  Click to See Images
+                </span>
               </TooltipTrigger>
             </DialogTrigger>
             <DialogContent className="dark:bg-zinc-900">
-            <DialogHeader>
+              <DialogHeader>
                 <DialogTitle>View {title} Gallery</DialogTitle>
                 <DialogDescription>
-                  Browse through the gallery by swiping left or right. Click the buttons below to navigate between images.
+                  Browse through the gallery by swiping left or right. Click the
+                  buttons below to navigate between images.
                 </DialogDescription>
               </DialogHeader>
 
@@ -269,11 +282,36 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "category",
-    header: "Kategori Produk",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          <span>Kategori Produk</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const product = row.original;
 
       return product.category.name;
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      // Mengakses nama kategori dari data baris
+      const nameA = rowA.original.category.name.toLowerCase();
+      const nameB = rowB.original.category.name.toLowerCase();
+
+      // Bandingkan nama kategori untuk pengurutan
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const categoryName = row.original.category.name.toLowerCase();
+      const filterValueLower = filterValue.toLowerCase();
+      return categoryName.includes(filterValueLower);
     },
   },
   {
@@ -288,6 +326,31 @@ export const columns: ColumnDef<Product>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          <span>Terakhir Diubah</span>
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const product = row.original;
+
+      const formattedDate = format(
+        new Date(product.updatedAt),
+        "dd MMMM yyyy p",
+        { locale: id },
+      );
+
+      return <p>{formattedDate}</p>;
     },
   },
   {
