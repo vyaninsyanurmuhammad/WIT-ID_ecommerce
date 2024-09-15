@@ -1,6 +1,5 @@
 "use client";
 
-import LandingCard from "@/components/landing.card";
 import Navbar from "@/components/navbar";
 import NormalButton from "@/components/normal.button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,12 @@ import {
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import ParallaxGsapLayout from "@/components/parallax.gsap.layout";
+import dynamic from "next/dynamic";
+
+const LandingCard = dynamic(() => import("@/components/landing.card"), {
+  loading: () => <p>Loading....</p>,
+});
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -99,16 +104,18 @@ export default function Home() {
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
       <div className="container mx-auto flex flex-col gap-20 px-5 xl:px-0">
-        <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-40 pt-40">
-          <h1 className="w-full max-w-[860px] font-rubik text-5xl font-normal text-zinc-800 dark:text-white">
-            Enter the digital bazaar, where every click leads to excitement
-          </h1>
-          <p className="w-full max-w-[430px] font-geist-sans text-base/5 text-zinc-800/70 dark:text-white/70">
-            Celebrate convenience, embrace choice, and experience seamless
-            shopping with us! discover a world where every click leads to
-            excitement.
-          </p>
-        </div>
+        <ParallaxGsapLayout>
+          <div className="flex flex-col justify-between gap-10 pt-40 lg:flex-row lg:gap-40">
+            <h1 className="w-full max-w-[860px] font-rubik text-5xl font-normal text-zinc-800 dark:text-white">
+              Enter the digital bazaar, where every click leads to excitement
+            </h1>
+            <p className="w-full max-w-[430px] font-geist-sans text-base/5 text-zinc-800/70 dark:text-white/70">
+              Celebrate convenience, embrace choice, and experience seamless
+              shopping with us! discover a world where every click leads to
+              excitement.
+            </p>
+          </div>
+        </ParallaxGsapLayout>
         <main className="flex h-fit flex-col gap-6">
           <div className="flex w-full justify-between gap-4">
             <Input
@@ -204,7 +211,7 @@ export default function Home() {
               </SheetContent>
             </Sheet>
           </div>
-          <div className="grid h-fit grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 xl:grid-cols-4 ">
+          <div className="grid h-fit grid-cols-1 gap-x-4 gap-y-8 lg:grid-cols-2 xl:grid-cols-4">
             {isLoading || isFetching ? (
               Array.from({ length: 8 }).map((_, index) => (
                 <LandingSkeletonCard key={index} />

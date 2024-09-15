@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import QueryProvider from "@/components/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import ReduxProvider from "@/redux/provider";
+import GsapLayout from "@/components/gsap.layout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
         className={cn(
           geistSans.variable,
@@ -52,7 +53,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              {children}
+              <GsapLayout>{children}</GsapLayout>
             </ThemeProvider>
           </QueryProvider>
         </ReduxProvider>
