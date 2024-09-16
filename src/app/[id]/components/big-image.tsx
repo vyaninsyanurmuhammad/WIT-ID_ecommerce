@@ -1,5 +1,6 @@
 import FallbackImage from "@/components/fallback-image";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const BigImage = ({ image }: { image: string }) => {
@@ -17,12 +18,15 @@ const BigImage = ({ image }: { image: string }) => {
       {hasError ? (
         <FallbackImage className="text-center" />
       ) : (
-        <img
+        <Image
           src={image}
-          className="relative w-full object-cover transition-all ease-in-out group-hover:scale-125"
+          className="!relative !w-full object-cover transition-all ease-in-out group-hover:scale-125"
           onLoad={() => setLoading(false)}
           onError={handleError}
           alt={`big-image-product`}
+          sizes="100%"
+          fill
+          unoptimized
         />
       )}
     </div>

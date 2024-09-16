@@ -1,5 +1,6 @@
 import FallbackImage from "@/components/fallback-image";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const PreviewImage = ({ image, index }: { image: string; index: number }) => {
@@ -17,11 +18,14 @@ const PreviewImage = ({ image, index }: { image: string; index: number }) => {
       {hasError ? (
         <FallbackImage className="text-center" />
       ) : (
-        <img
+        <Image
           src={image}
-          className="relative h-full w-full object-cover"
+          className="!relative !h-full !w-full object-cover"
           onLoad={() => setLoading(false)}
           onError={handleError}
+          sizes="100%"
+          fill
+          unoptimized
           alt={`preview-${index}`}
         />
       )}

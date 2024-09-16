@@ -12,7 +12,7 @@ export default function Home() {
           <div className="relative h-20 w-auto">
             <Image
               src={"/assets/image/svg"}
-              className="object-contain"
+              className="!relative !h-full object-contain"
               sizes="100%"
               fill
               alt="logo-loading"

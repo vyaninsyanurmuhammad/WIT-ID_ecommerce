@@ -4,6 +4,7 @@ import FallbackImage from "@/components/fallback-image";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trash } from "lucide-react";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const UploadedImageCard = ({
@@ -32,12 +33,15 @@ const UploadedImageCard = ({
         {hasError ? (
           <FallbackImage />
         ) : (
-          <img
+          <Image
             src={image}
             className={`relative w-full object-cover ${loading ? "hidden" : "block"}`}
             onLoad={() => setLoading(false)}
             alt={`upload-image-${index}`}
             onError={handleError}
+            sizes="100%"
+            fill
+            unoptimized
           />
         )}
       </div>

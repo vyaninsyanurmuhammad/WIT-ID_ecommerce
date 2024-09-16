@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import FallbackImage from "./fallback-image";
+import Image from "next/image";
 
 interface LandingCardProps {
   image: string;
@@ -26,15 +27,18 @@ const LandingCard = ({
 
   return (
     <div className="group flex h-auto w-full flex-col gap-4">
-      <div className="flex h-60 w-full overflow-hidden rounded-xl">
+      <div className="relative flex h-60 w-full overflow-hidden rounded-xl">
         {hasError ? (
           <FallbackImage />
         ) : (
-          <img
+          <Image
             src={image}
             alt={`title-${image.split(" ").join("-")}`}
-            className="relative w-full object-cover transition-all ease-in-out group-hover:scale-125"
+            className="!relative !w-full object-cover transition-all ease-in-out group-hover:scale-125"
             onError={handleError}
+            sizes="100%"
+            fill
+            unoptimized
           />
         )}
       </div>
