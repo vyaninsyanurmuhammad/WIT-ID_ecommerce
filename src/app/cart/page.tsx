@@ -28,7 +28,7 @@ const Cart = () => {
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
 
-      <div className="container mx-auto flex flex-col gap-20 px-5 pb-20 xl:px-0">
+      <div className="container mx-auto flex flex-col gap-20 px-5 pb-20">
         <div className="mt-40 flex flex-col gap-20 lg:grid lg:grid-cols-3">
           <div className="col-span-2 flex w-full flex-col gap-6">
             {chartState.cart.map((data, index) => (

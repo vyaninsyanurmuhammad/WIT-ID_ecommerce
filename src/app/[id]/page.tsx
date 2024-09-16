@@ -50,7 +50,7 @@ const Detail = ({ params }: { params: { id: string } }) => {
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
       <Navbar />
 
-      <div className="container mx-auto flex flex-col gap-20 px-5 pb-20 xl:px-0">
+      <div className="container mx-auto flex flex-col gap-20 px-5 pb-20">
         <main className="flex h-fit flex-col gap-6">
           {isFetching || isLoading ? (
             <DetailLoading />

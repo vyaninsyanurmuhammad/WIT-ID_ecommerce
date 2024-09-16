@@ -17,9 +17,9 @@ const Dashboard = () => {
 
   return (
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
-      <Navbar className="px-5 xl:px-0" />
+      <Navbar />
 
-      <div className="container mx-auto px-5 pt-40 xl:px-0">
+      <div className="container mx-auto px-5 pt-40">
         <DataTable
           columns={columns}
           data={data || []}

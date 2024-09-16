@@ -17,7 +17,7 @@ const Navbar = ({ className, ...props }: NavbarProps) => {
   return (
     <nav
       className={cn(
-        "fixed left-0 top-0 z-50 w-full px-5 backdrop-blur-xl sm:backdrop-blur-none xl:px-0",
+        "fixed left-0 top-0 z-50 w-full px-5 backdrop-blur-xl sm:backdrop-blur-none",
         className,
       )}
       {...props}
