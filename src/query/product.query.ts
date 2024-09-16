@@ -25,13 +25,6 @@ export const fetchPublicProducts = async ({
     priceParams.push(`price_max=${maxPrice}`);
   }
 
-  console.log(
-    "URL :",
-    `/api/v1/products?offset=${offset}&limit=${limit}&title=${encodeURIComponent(
-      title,
-    )}${priceParams.length ? `&${priceParams.join("&")}` : ""}${category ? `&categoryId=${encodeURIComponent(category)}` : ""}`,
-  );
-
   const res = await axiosAPI.get(
     `/api/v1/products?offset=${offset}&limit=${limit}&title=${encodeURIComponent(
       title,

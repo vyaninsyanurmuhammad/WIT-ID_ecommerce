@@ -7,7 +7,7 @@ import { fetchPublicProducts } from "@/query/product.query";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import LandingSkeletonCard from "@/components/landing-skeleton.card";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -32,6 +32,7 @@ import dynamic from "next/dynamic";
 import { fetchCategorys } from "@/query/category.query";
 import { parseImages } from "@/lib/parse";
 import { Category, Product } from "../(dashboard)/dashboard/components/columns";
+import Navbar from "@/components/navbar";
 
 const LandingCard = dynamic(() => import("@/components/landing.card"), {
   loading: () => <LandingSkeletonCard />,
@@ -58,17 +59,17 @@ const HomeContent = () => {
 
   const [debouncedFilters, setDebouncedFilters] = useState(filters);
 
-  const debouncedUpdateFilters = useRef(
+  const debouncedUpdateFilters = useCallback(
     debounce((updatedFilters) => {
       setDebouncedFilters(updatedFilters);
 
-      console.log("Updating URL with filters:", updatedFilters);
       const { title, minPrice, maxPrice, category } = updatedFilters;
       router.push(
         `?page=1&title=${encodeURIComponent(title)}&minPrice=${encodeURIComponent(minPrice)}&maxPrice=${encodeURIComponent(maxPrice)}&category=${encodeURIComponent(category)}`,
       );
     }, 600),
-  ).current;
+    [router],
+  );
 
   const { data, error, isLoading, isFetching } = useQuery<Product[]>({
     queryKey: ["publicProducts", page, debouncedFilters],
@@ -127,6 +128,8 @@ const HomeContent = () => {
 
   return (
     <div className="h-auto min-h-svh bg-zinc-100 dark:bg-zinc-800">
+      <Navbar />
+
       <div className="container mx-auto flex flex-col gap-20 px-5 xl:px-0">
         <ParallaxGsapLayout>
           <div className="flex flex-col justify-between gap-10 pt-40 lg:flex-row lg:gap-40">
