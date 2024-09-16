@@ -11,7 +11,7 @@ export default function Home() {
         <div className="flex min-h-svh w-full items-center justify-center bg-white dark:bg-zinc-800">
           <div className="relative h-20 w-auto">
             <Image
-              src={"/assets/image/svg"}
+              src={"/assets/images/svg/logo.svg"}
               className="!relative !h-full object-contain"
               sizes="100%"
               fill
