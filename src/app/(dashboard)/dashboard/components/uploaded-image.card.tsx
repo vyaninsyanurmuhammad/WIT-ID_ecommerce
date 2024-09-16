@@ -35,7 +35,7 @@ const UploadedImageCard = ({
         ) : (
           <Image
             src={image}
-            className={`relative w-full object-cover ${loading ? "hidden" : "block"}`}
+            className={`!relative !w-full object-cover`}
             onLoad={() => setLoading(false)}
             alt={`upload-image-${index}`}
             onError={handleError}
